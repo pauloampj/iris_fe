@@ -11,7 +11,7 @@
 					                                    <input type="text" autocomplete="off" class="form-control" placeholder="Search" id="demo-input-search2">
 					                                </div>
 					                                <div class="btn-group">
-					                                    <button class="btn btn-default"><i class="demo-pli-information icon-lg"></i></button>
+					                                    <button class="btn btn-default"><i class="demo-pli-pen-5 icon-lg"></i></button>
 					                                    <button class="btn btn-default"><i class="demo-pli-trash icon-lg"></i></button>
 					                                </div>
 					                                <div class="btn-group">
@@ -33,8 +33,8 @@
 					                                <tr>
 					                                	<th>
 						                                	<div class="checkbox no-margin-vertical">
-									                            <input id="demo-form-checkbox" class="magic-checkbox" type="checkbox" checked="">
-									                            <label for="demo-form-checkbox"></label>
+									                            <input id="form-checkbox-all" class="magic-checkbox" type="checkbox">
+									                            <label for="form-checkbox-all"></label>
 									                        </div>
 								                        </th>
 								                        <?php foreach($headers as $h => $items): ?>
@@ -47,27 +47,30 @@
 								                    	<tr>
 						                                	<td>
 							                                	<div class="checkbox no-margin-vertical">
-										                            <input id="demo-form-checkbox" class="magic-checkbox" type="checkbox" checked="">
-										                            <label for="demo-form-checkbox"></label>
+										                            <input id="form-checkbox-<?php echo $row['Id']; ?>" class="magic-checkbox" type="checkbox">
+										                            <label for="form-checkbox-<?php echo $row['Id']; ?>"></label>
 										                        </div>
 									                        </td>
 									                        <?php foreach($headers as $h => $items): ?>
-								                        		<td><?php echo $this->DMPLFormat->format($row[$items['key']], $items['format']); ?></td>
+									                        	<td>
+									                        	<?php
+									                        		$val = $this->DMPLFormat->format($row[$items['key']], $items['format']);
+									                        		
+									                        		if(isset($items['link'])){
+									                        			$items['link'][] = $row[$items['key']];
+									                        			echo $this->Html->link(
+									                        					$val,
+									                        					$items['link'],
+									                        					['class' => 'btn-link']
+									                        					);
+									                        		}else{
+									                        			echo $val;	
+									                        		}									                        	
+									                        	?>
+									                        	</td>
 								                        	<?php endforeach; ?>
 					                                	</tr>
 								                    <?php endforeach; ?>
-					                                <tr>
-					                                	<td>
-						                                	<div class="checkbox no-margin-vertical">
-									                            <input id="demo-form-checkbox" class="magic-checkbox" type="checkbox" checked="">
-									                            <label for="demo-form-checkbox"></label>
-									                        </div>
-								                        </td>
-					                                    <td><a href="#" class="btn-link"> Cubo #53431</a></td>
-					                                    <td>Parcelas</td>
-					                                    <td><span class="text-muted">Cubo para buscar informações de parcelas...</span></td>
-					                                    <td><span class="text-muted">Oct 22, 2014</span></td>
-					                                </tr>
 					                            </tbody>
 					                        </table>
 					                    </div>

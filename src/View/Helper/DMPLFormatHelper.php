@@ -46,7 +46,7 @@ class DMPLFormatHelper extends Helper {
     }
     
     public function toDate($aDate = null){
-    	return "data: $aDate";
+    	return date('d/m/Y', strtotime($aDate));
     }
 
 }

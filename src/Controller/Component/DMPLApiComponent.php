@@ -33,6 +33,10 @@ class DMPLApiComponent extends Component {
 			$url = $this->_formatUrl($aController, $aMethod, $aConfig);
 			$curl = curl_init();
 
+			if(isset($aConfig['DebugUrl']) && $aConfig['DebugUrl'] == true){
+				debug($url);
+			}
+			
 			if(!isset($aConfig['Params']) || !isset($aConfig['Params'][Configure::read('SESSION.KEY')])){
 				$aConfig['Params'][Configure::read('SESSION.KEY')] = $this->DMPLSession->getId();
 			}

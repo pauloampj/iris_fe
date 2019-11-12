@@ -16,7 +16,7 @@
 					<?php
 						echo $this->element('table', [
 								'headers' => [
-									'Código'			=> ['key' => 'Id', 'format' => 'id'],
+									'Código'			=> ['key' => 'Id', 'format' => 'id', 'link' => ['controller' => 'Cubes', 'action' => 'view']],
 									'Nome'				=> ['key' => 'Name', 'format' => 'text'],
 									'Descrição'			=> ['key' => 'Description', 'format' => 'text'],
 									'Data de Criação'	=> ['key' => 'CreateDate', 'format' => 'date'],

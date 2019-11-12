@@ -28,5 +28,19 @@ class CubesController extends AppController {
     			);
     	$this->set(compact('list'));
     }
+    
+    public function view($aId = null) {
+    	$cube = $this->DMPLApi->call(
+    			'cubes',
+    			'view',
+    			array(
+    					'Params' => array(
+    							'Id' => $aId
+    					)
+    					
+    			)
+    			);
+    	$this->set(compact('cube'));
+    }
 
 }
