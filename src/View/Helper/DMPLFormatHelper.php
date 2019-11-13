@@ -30,10 +30,12 @@ class DMPLFormatHelper extends Helper {
 	
     public function format($aValue = null, $aFormat = null) {
 		switch($aFormat){
-			case 'id': return self::toId($aValue); break;
-			case 'text': return self::toText($aValue); break;
-			case 'date': return self::toDate($aValue); break;
-			default: return self::toText($aValue); break;
+			case 'id'			: return self::toId($aValue);
+			case 'text'			: return self::toText($aValue);
+			case 'date'			: return self::toDate($aValue);
+			case 'cpfcnpj'		: return self::toCpfCnpj($aValue);
+			case 'person_type'	: return self::toPersonType($aValue);
+			default				: return self::toText($aValue);
 		}
     }
     
@@ -47,6 +49,24 @@ class DMPLFormatHelper extends Helper {
     
     public function toDate($aDate = null){
     	return date('d/m/Y', strtotime($aDate));
+    }
+    
+    public function toCpfCnpj($aVar = null){
+    	if(strlen($aVar) == 11){
+    		return preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $aVar);
+    	}elseif(strlen($aVar) == 14){
+    		return preg_replace("/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/", "\$1.\$2.\$3/\$4-\$5", $aVar);
+    	}else{
+    		return $aVar;
+    	}
+    }
+    
+    public function toPersonType($aVar = null){
+    	switch($aVar){
+    		case 'F'			: return 'Pessoa Física';
+    		case 'P'			: return 'Pessoa Juríca';
+    		default				: return 'Não identificado';
+    	}
     }
 
 }
