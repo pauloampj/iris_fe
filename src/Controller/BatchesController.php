@@ -35,12 +35,20 @@ class BatchesController extends AppController {
     			'view',
     			array(
     					'Params' => array(
-    							'Id' => $aId
+    							'Key' => $aId
     					)
     					
     			)
     			);
     	$this->set(compact('batch'));
+    }
+    
+    public function new() {
+    	$cubes = $this->DMPLApi->call(
+    			'cubes',
+    			'list'
+    			);
+    	$this->set(compact('cubes'));
     }
 
 }

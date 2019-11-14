@@ -31,10 +31,13 @@
 	dmpl.$appContent = $('.app-content');
 	dmpl.version = '0.0.1';
 	dmpl.url = dmpl.explodeURL(document.domain);
+	dmpl.IP = '169.254.77.101';
 	dmpl.apiVersion = '1.0';
 	dmpl.apiProtocol = 'http://';
-	dmpl.apiUrl = dmpl.apiProtocol + 'api.' + dmpl.url.domain + '.' + dmpl.url.tld + '/' + dmpl.apiVersion;
-	dmpl.appUrl = dmpl.apiProtocol + 'iris.' + dmpl.url.domain + '.' + dmpl.url.tld;
+	//dmpl.apiUrl = dmpl.apiProtocol + 'api.' + dmpl.url.domain + '.' + dmpl.url.tld + '/' + dmpl.apiVersion;
+	//dmpl.appUrl = dmpl.apiProtocol + 'iris.' + dmpl.url.domain + '.' + dmpl.url.tld;
+	dmpl.apiUrl = dmpl.apiProtocol + dmpl.IP + '/iris_be/' + dmpl.apiVersion;
+	dmpl.appUrl = dmpl.apiProtocol + dmpl.IP + '/iris_fe';
 
 	/**
 	 * Declara os atributos para chamada dos módulos diretamente...
@@ -586,6 +589,10 @@
 		return false;
 
 	}
+	
+	function goTo($where){
+		location.href = $where;
+	}
 
 
 	return {
@@ -598,7 +605,8 @@
 		getHash				: getHash,
 		strToHexColor	: strToHexColor,
 		objToArray		: objToArray,
-		orderBy				: orderBy
+		orderBy				: orderBy,
+		goTo				: goTo
 	}
 
 });

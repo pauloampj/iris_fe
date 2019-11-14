@@ -24,6 +24,8 @@ use Cake\View\View;
  */
 class AppView extends View
 {
+	
+	public $helpers = ['Url'];
 
     /**
      * Initialization hook method.

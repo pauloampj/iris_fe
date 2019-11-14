@@ -22,6 +22,7 @@
     <!--Nifty Premium Icon [ DEMONSTRATION ]-->
     <?php echo $this->Html->css('demo/nifty-demo-icons.min'); ?>
     <?php echo $this->Html->css('/plugins/pli/premium-line-icons'); ?>
+    <?php echo $this->Html->css('/plugins/ionicons/css/ionicons'); ?>
 
     <!--=================================================-->
 
@@ -30,6 +31,10 @@
 	<?php echo $this->Html->script('/plugins/pace/pace.min'); ?>
 	
 	<?php echo $this->Html->css('/plugins/switchery/switchery.min'); ?>
+	
+	<?php echo $this->Html->css('/plugins/select2/css/select2'); ?>
+	
+	<?php echo $this->Html->css('/plugins/gritter/css/jquery.gritter'); ?>
 
     <!--Demo [ DEMONSTRATION ]-->
     <?php echo $this->Html->css('demo/nifty-demo.min'); ?>
@@ -87,6 +92,12 @@
     <?php echo $this->Html->script('/plugins/flot-charts/jquery.flot.resize.min'); ?>
     <?php echo $this->Html->script('/plugins/flot-charts/jquery.flot.tooltip.min'); ?>
 
+	<!-- Select [ OPTIONAL ]-->
+    <?php echo $this->Html->script('/plugins/select2/js/select2'); ?>
+    
+    <!-- Gritter [ OPTIONAL ]-->
+    <?php echo $this->Html->script('/plugins/gritter/js/jquery.gritter'); ?>
+
     <!--Sparkline [ OPTIONAL ]-->
     <?php echo $this->Html->script('/plugins/sparkline/jquery.sparkline.min'); ?>
 
@@ -94,5 +105,16 @@
     <?php echo $this->Html->script('demo/dashboard'); ?>
     
     <?php echo $this->Html->script('dmpl/dmpl'); ?>
+    <?php echo $this->Html->script('dmpl/routine'); ?>
+    <?php 
+    	
+    	$jsFile = strtolower($this->request->getParam('controller')) . '.controller.js';
+    	$file = WWW_ROOT. 'js' . DS . 'dmpl' . DS . $jsFile;
+
+    	if(file_exists($file)){
+    		echo $this->Html->script('dmpl/' . $jsFile);
+    	}
+    ?>
+    
 </body>
 </html>

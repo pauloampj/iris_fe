@@ -15,8 +15,9 @@
 				<div class="fixed-fluid">
 					<?php
 						echo $this->element('table', [
+								'newButton' => ['link' => ['controller' => 'Batches', 'action' => 'new']],
 								'headers' => [
-									'Código'			=> ['key' => 'Id', 'format' => 'id', 'link' => ['controller' => 'Batches', 'action' => 'view']],
+									'Chave'				=> ['key' => 'Key', 'format' => 'text', 'link' => ['controller' => 'Batches', 'action' => 'view']],
 									'Nome'				=> ['key' => 'Name', 'format' => 'text'],
 									'Descrição'			=> ['key' => 'Description', 'format' => 'text'],
 									'Data de Criação'	=> ['key' => 'CreateDate', 'format' => 'date'],

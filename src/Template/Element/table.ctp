@@ -4,11 +4,13 @@
 					                    <div class="pad-btm form-inline">
 					                        <div class="row">
 					                            <div class="col-sm-6 table-toolbar-left">
-					                                <button class="btn btn-mint"><i class="demo-pli-add icon-fw"></i>Novo</button>
+					                            <?php if(isset($newButton) && isset($newButton['link'])): ?>
+					                                <button class="btn btn-mint btn-redirect" data-link="<?php echo $this->Url->build($newButton['link']); ?>"><i class="demo-pli-add icon-fw"></i>Novo</button>
+					                            <?php endif; ?>
 					                            </div>
 					                            <div class="col-sm-6 table-toolbar-right">
 					                                <div class="form-group">
-					                                    <input type="text" autocomplete="off" class="form-control" placeholder="Search" id="demo-input-search2">
+					                                    <input type="text" autocomplete="off" class="form-control" placeholder="Pesquisar..." id="demo-input-search2">
 					                                </div>
 					                                <div class="btn-group">
 					                                    <button class="btn btn-default"><i class="demo-pli-pen-5 icon-lg"></i></button>

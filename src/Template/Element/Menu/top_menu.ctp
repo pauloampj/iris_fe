@@ -156,7 +156,7 @@
                                 </label>
                                 <form>
                                     <div class="search-container collapse" id="nav-searchbox">
-                                        <input id="search-input" type="text" class="form-control" placeholder="Type for search...">
+                                        <input id="search-input" type="text" class="form-control" placeholder="Escreva para pesquisar...">
                                     </div>
                                 </form>
                             </div>
