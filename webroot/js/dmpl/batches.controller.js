@@ -5,6 +5,29 @@ $(document).ready(function(){
 		$container.fadeIn();
 	});
 	
+	$('#loadListBtn').click(function(){
+		var data = dmpl.Util.serialize('[name^="data["]', $('#filterContainer'));
+		data['cube'] = $('#cubeSelect').val();
+		ajaxParams = {
+			type: 'GET',
+			url: dmpl.apiUrl + '/cubes/load',
+			data: data,
+			xhrFields: {
+			    withCredentials: true
+			},
+			dataType: 'json',
+			success: function(response){
+				if(response){
+					
+				}else{
+					dmpl.GUI.showMessage({text: 'Erro ao carregar cubo. Resposta do sistema: ' + (response.message || 'sem resposta'), type: dmpl.GUI.MESSAGE_TYPES.error});
+				}
+			}
+		};
+		
+		dmpl.Network.ajax({ajax: ajaxParams, errorMessage: 'Ocorreu um erro ao conectar com o servidor!', loadMessage: 'Carregando cubo...'});
+	});
+	
 	$('#cubeSelect').change(function(){
 		var cube = $(this).val();
 		
@@ -47,7 +70,7 @@ function getFieldSelectOptions(cubeFields){
 	var options = '';
 	
 	for(var i = 0; i < cubeFields.length; i++){
-		options += '<option value="' + cubeFields[i].field + '">' + cubeFields[i].field + '</option>';
+		options += '<option value="' + cubeFields[i].Field + '">' + cubeFields[i].Name + '</option>';
 	}
 	
 	return options;
@@ -55,10 +78,26 @@ function getFieldSelectOptions(cubeFields){
 
 function getFilterContainer(){
 	var cube = $('#cubeSelect').val();
+	var size = $('#filterContainer .filter-row').length;
 	var container = '';
-		container += '<div class="col-sm-4">';
+	var prepend = '';
+
+	if(size > 0){
+		prepend += '<div class="col-sm-1">';
+			prepend += '<div class="form-group">';
+				prepend += '<select class="form-control" name="data['+size+'][logic]">';
+					prepend += '<option value="AND">E</option>';
+					prepend += '<option value="OR">Ou</option>';
+				prepend += '</select>';
+			prepend += '</div>';
+		prepend += '</div>';
+		prepend += '<div class="col-sm-3">';
+	}else{
+		prepend += '<div class="col-sm-4">';
+	}
+		container += prepend; 
 			container += '<div class="form-group">';
-				container += '<select class="form-control select2 field-select">';
+				container += '<select class="form-control select2 field-select" name="data['+size+'][field]">';
 					if(dmpl.Cubes && dmpl.Cubes[cube]){
 						container += getFieldSelectOptions(dmpl.Cubes[cube]);
 					}else{
@@ -69,7 +108,7 @@ function getFilterContainer(){
 		container += '</div>';
 		container += '<div class="col-sm-4">';
 			container += '<div class="form-group">';
-				container += '<select class="form-control">';
+				container += '<select class="form-control" name="data['+size+'][operator]">';
 					container += '<option value="equal">É igual a</option>';
 					container += '<option value="different">É diferente de</option>';
 					container += '<option value="lesserthan">É menor que</option>';
@@ -84,7 +123,7 @@ function getFilterContainer(){
 		container += '</div>';
 		container += '<div class="col-sm-3">';
 			container += '<div class="form-group">';
-				container += '<input type="text" class="form-control">';
+				container += '<input type="text" class="form-control" name="data['+size+'][value]">';
 			container += '</div>';
 		container += '</div>';
 		container += '<div class="col-sm-1">';

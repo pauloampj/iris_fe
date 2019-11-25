@@ -71,7 +71,7 @@
 		<div class="panel">
 			<div class="panel-heading bg-colored-grey">
 				<h3 class="panel-title">Lista
-				<button alt="atualizar" class="btn btn-mint btn-icon btn-circle btn-xs" style="float: right;margin-top:6px;"><i class="ion-refresh icon-lg"></i></button>
+				<button id="loadListBtn" alt="atualizar" class="btn btn-mint btn-icon btn-circle btn-xs" style="float: right;margin-top:6px;"><i class="ion-refresh icon-lg"></i></button>
 				</h3>
 			</div>
 			<div class="panel-body">
@@ -162,7 +162,6 @@
 				</div>
 			</div>
 		</div>
-		
 		<div class="panel">
 			<div class="panel-body" style="padding-bottom:0;">
 				<div class="fixed-fluid">
