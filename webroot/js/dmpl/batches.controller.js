@@ -8,6 +8,7 @@ $(document).ready(function(){
 	$('#loadListBtn').click(function(){
 		var data = dmpl.Util.serialize('[name^="data["]', $('#filterContainer'));
 		data['cube'] = $('#cubeSelect').val();
+		data['compress'] = true;
 		ajaxParams = {
 			type: 'GET',
 			url: dmpl.apiUrl + '/cubes/load',
@@ -18,7 +19,8 @@ $(document).ready(function(){
 			dataType: 'json',
 			success: function(response){
 				if(response){
-					
+					$table = dmpl.GUI.buildTable({fields: response.fields, items: response.items});
+					$('#itemsList').html($table);
 				}else{
 					dmpl.GUI.showMessage({text: 'Erro ao carregar cubo. Resposta do sistema: ' + (response.message || 'sem resposta'), type: dmpl.GUI.MESSAGE_TYPES.error});
 				}

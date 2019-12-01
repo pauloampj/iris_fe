@@ -523,6 +523,70 @@
 		_merge(array, begin, begin_right, end, attr);
 
 	}
+	
+	function _formatDecimal(number, decPlaces, decSep, thouSep) {
+		decPlaces = isNaN(decPlaces = Math.abs(decPlaces)) ? 2 : decPlaces,
+		decSep = typeof decSep === "undefined" ? "." : decSep;
+		thouSep = typeof thouSep === "undefined" ? "," : thouSep;
+		var sign = number < 0 ? "-" : "";
+		var i = String(parseInt(number = Math.abs(Number(number) || 0).toFixed(decPlaces)));
+		var j = (j = i.length) > 3 ? j % 3 : 0;
+
+		return sign +
+			(j ? i.substr(0, j) + thouSep : "") +
+			i.substr(j).replace(/(\decSep{3})(?=\decSep)/g, "$1" + thouSep) +
+			(decPlaces ? decSep + Math.abs(number - i).toFixed(decPlaces).slice(2) : "");
+	}
+	
+	function _formatToId(text){
+		return '#' + text;
+	}
+	
+	function _formatToDate(text){
+		var d = new Date(text);
+		
+		if(!isNaN(d)){
+			return d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear();
+		}else{
+			return text.replace(/(\d{4})(\d{2})(\d{2})/, "$3/$2/$1");
+		}
+	}
+	
+	function _formatToCpfCnpj(text){
+		var cpfcnpj = text.replace(/[^\d]/g, "");
+		
+		if(cpfcnpj.length == 11){
+    		return cpfcnpj.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+    	}else if(cpfcnpj.length == 14){
+    		return cpfcnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
+    	}else{
+    		return cpfcnpj;
+    	}
+	}
+	
+	function _formatToPersonType(text){
+		switch(text){
+		case 'F'			: return 'Pessoa Física';
+		case 'P'			: return 'Pessoa Juríca';
+		default				: return 'Não identificado';
+	}
+	}
+	
+	function _formatToMoney(text){
+		return "R$ " + _formatDecimal(text, 2, ',', '.');
+	}
+	
+	function _formatToNumber(text){
+		return _formatDecimal(text, 0, ',', '.');
+	}
+	
+	function _formatToSinqiaOp(text){
+		return text.replace(/(\d{6})(\d{3})(\d{1})/, "$1-$2-$3");
+	}
+	
+	function _formatToText(text){
+		return text;
+	}
 
 	function orderBy(array, attr, type){
 
@@ -593,20 +657,39 @@
 	function goTo($where){
 		location.href = $where;
 	}
+	
+	function format(opts){
+		opts = opts || {};
+		opts.format = opts.format || 'text';
+		opts.text = opts.text || '';
+		
+		switch(opts.format){
+			case 'id'			: return _formatToId(opts.text);
+			case 'text'			: return _formatToText(opts.text);
+			case 'date'			: return _formatToDate(opts.text);
+			case 'cpfcnpj'		: return _formatToCpfCnpj(opts.text);
+			case 'person_type'	: return _formatToPersonType(opts.text);
+			case 'money'		: return _formatToMoney(opts.text);
+			case 'number'		: return _formatToNumber(opts.text);
+			case 'sinqia_op'	: return _formatToSinqiaOp(opts.text);
+			default				: return _formatToText(opts.text);
+		}
+	}
 
 
 	return {
-		filterJSON		: filterJSON,
-		evokeMethod		: evokeMethod,
+		filterJSON			: filterJSON,
+		evokeMethod			: evokeMethod,
 		serialize			: serialize,
 		isArray				: isArray,
 		inArray				: inArray,
-		md5						: MD5,
+		md5					: MD5,
 		getHash				: getHash,
-		strToHexColor	: strToHexColor,
-		objToArray		: objToArray,
+		strToHexColor		: strToHexColor,
+		objToArray			: objToArray,
 		orderBy				: orderBy,
-		goTo				: goTo
+		goTo				: goTo,
+		format				: format
 	}
 
 });
@@ -706,11 +789,62 @@
 
 	}
 	
+	function buildTable(opts){
+		
+		opts = opts || {};
+		opts.type = opts.items || [];
+		
+		$container = $('<div class="table-responsive">');
+		$table = $('<table class="table table-striped">');
+		$thead = $('<thead>');
+		$thead_tr = $('<tr>');
+		$tbody = $('<tbody>');
+		
+		$thead_tr.append(
+				'<th>' +
+				'<div class="checkbox no-margin-vertical">' + 
+				'<input id="form-checkbox-all" class="magic-checkbox" type="checkbox">' +
+				'<label for="form-checkbox-all"></label>' +
+				'</div>' +
+				'</th>');
+		
+		for(var i = 0; i < opts.fields.length; i++){
+			$thead_tr.append('<th>' + opts.fields[i].Name + '</th>');
+		}
+		
+		var tbody_tr = '';
+		
+		for(var j = 0; j < opts.items.length; j++){
+			tbody_tr +=	'<tr>' + 
+						'<td>' +
+							'<div class="checkbox no-margin-vertical">' +
+								'<input id="form-checkbox-' + opts.items[j].ID + '" class="magic-checkbox" type="checkbox">' +
+								'<label for="form-checkbox-' + opts.items[j].ID + '"></label>' +
+							'</div>' +
+						'</td>';
+			
+			for(var i = 0; i < opts.fields.length; i++){
+				tbody_tr +=	'<td>' + util.format({text: opts.items[j][opts.fields[i].Field], format: opts.fields[i].Format}) + '</td>';
+			}
+			
+			tbody_tr += '</tr>';
+		}
+		
+		$thead.append($thead_tr);
+		$tbody.append(tbody_tr);
+		$table.append($thead);
+		$table.append($tbody);
+		$container.append($table);
+		
+		return $container;
+	}
+	
 	return {
-		attrsObjToAttrsDom	: attrsObjToAttrsDom,
-		showMessage					: showMessage,
+		attrsObjToAttrsDom		: attrsObjToAttrsDom,
+		showMessage				: showMessage,
 		hideAllMessages			: hideAllMessages,
-		MESSAGE_TYPES				: MESSAGE_TYPES
+		buildTable				: buildTable,
+		MESSAGE_TYPES			: MESSAGE_TYPES
 	}
 
 });
@@ -729,6 +863,8 @@
 
 		var loadId = Math.random();
 		//gui.showLoading({id: loadId, message: opts.loadMessage, container: opts.container ? opts.container : null, callback: function(){
+		
+		opts.ajax.data.compress = opts.ajax.data.compress || false;
 
 			$.ajax({
 				type: opts.ajax.type,
@@ -742,13 +878,21 @@
 						if(jqXHR.status == 200){
 
 							var response = "";
+							var rawData = "";
 
 							if(opts.ajax.success){
 
+								//if(opts.ajax.data.compress){
+									//rawData = pako.deflate(jqXHR.responseText, { to: 'string' });
+								//}else{
+									rawData = jqXHR.responseText;
+									console.log(jqXHR);
+								//}
+								
 								if(String(opts.ajax.dataType).toUpperCase() == 'JSON'){
-									response = $.parseJSON(jqXHR.responseText);
+									response = $.parseJSON(rawData);
 								}else{
-									response = jqXHR.responseText;
+									response = rawData;
 								}
 
 								opts.ajax.success(response);

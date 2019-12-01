@@ -77,7 +77,7 @@
 			<div class="panel-body">
 				<div class="fixed-fluid">
 					<div class="row">
-					    <div class="table-responsive">
+					    <div class="table-responsive" id="itemsList">
 					    	<?php if(isset($list)): ?>
 					                        <table class="table table-striped">
 					                            <thead>
@@ -156,7 +156,7 @@
 								                <p>A sua tabela está vazia. É provável que vocês ainda não tenha atualizado a lista ou tenha restringido demais a pesquisa.</p>
 							            	</div>
 					                        <?php endif; ?>
-					                    </div>
+					            </div>
 					                    
 					</div>
 				</div>

@@ -35,6 +35,8 @@ class DMPLFormatHelper extends Helper {
 			case 'date'			: return self::toDate($aValue);
 			case 'cpfcnpj'		: return self::toCpfCnpj($aValue);
 			case 'person_type'	: return self::toPersonType($aValue);
+			case 'money'		: return self::toMoney($aValue);
+			case 'number'		: return self::toNumber($aValue);
 			default				: return self::toText($aValue);
 		}
     }
@@ -59,6 +61,14 @@ class DMPLFormatHelper extends Helper {
     	}else{
     		return $aVar;
     	}
+    }
+    
+    public function toMoney($aVar = null){
+    	return preg_replace("/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/", "\$1.\$2.\$3/\$4-\$5", $aVar);
+    }
+    
+    public function toNumber($aVar = null){
+    	return preg_replace("/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/", "\$1.\$2.\$3/\$4-\$5", $aVar);
     }
     
     public function toPersonType($aVar = null){

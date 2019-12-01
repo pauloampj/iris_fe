@@ -100,6 +100,9 @@
 
     <!--Sparkline [ OPTIONAL ]-->
     <?php echo $this->Html->script('/plugins/sparkline/jquery.sparkline.min'); ?>
+    
+    <!--Pako [ OPTIONAL ]-->
+    <?php echo $this->Html->script('/plugins/pako/dist/pako.min'); ?>
 
     <!--Specify page [ SAMPLE ]-->
     <?php echo $this->Html->script('demo/dashboard'); ?>
