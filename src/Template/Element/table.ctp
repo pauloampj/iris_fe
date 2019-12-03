@@ -35,7 +35,7 @@
 					                                <tr>
 					                                	<th>
 						                                	<div class="checkbox no-margin-vertical">
-									                            <input id="form-checkbox-all" class="magic-checkbox" type="checkbox">
+									                            <input id="form-checkbox-all" onChange="dmpl.GUI.tableSelectchange(this);" class="magic-checkbox" type="checkbox">
 									                            <label for="form-checkbox-all"></label>
 									                        </div>
 								                        </th>

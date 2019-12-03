@@ -10,7 +10,7 @@
 			<li class="active">Novo</li>
 		</ol>
 
-		<div class="panel">
+		<div class="panel" id="basicInfoContainer">
 			<div class="panel-heading bg-colored-grey">
 				<h3 class="panel-title">Básico</h3>
 			</div>
@@ -20,13 +20,13 @@
 					    <div class="col-sm-6">
 					        <div class="form-group">
 					            <label class="control-label">Nome</label>
-					            <input type="text" class="form-control">
+					            <input type="text" class="form-control" name="data[name]">
 					        </div>
 					    </div>
 					    <div class="col-sm-6">
 					        <div class="form-group">
 					            <label class="control-label">Cubo</label>
-					            <select id="cubeSelect" class="form-control select2">
+					            <select id="cubeSelect" class="form-control select2" name="data[cube]" >
 					            	<?php if(isset($cubes) && count($cubes) > 0): ?>
 					            		<option disabled selected value> -- selecione um cubo -- </option>
 					            	<?php foreach($cubes as $c): ?>
@@ -43,7 +43,7 @@
 					    <div class="col-sm-12">
 					        <div class="form-group">
 					            <label class="control-label">Descrição</label>
-					            <textarea placeholder="Escreva aqui a descrição do lote..." rows="13" class="form-control"></textarea>
+					            <textarea placeholder="Escreva aqui a descrição do lote..." rows="13" class="form-control" name="data[description]"></textarea>
 					        </div>
 					    </div>
 					</div>
@@ -168,7 +168,7 @@
 					<div class="row">
 					    <div class="col-sm-12 table-toolbar-right">
 					    	<button class="btn btn-default btn-lg btn-redirect" data-link="<?php echo $this->Url->build(['controller' => 'Batches', 'action' => 'index']); ?>"><i class="ion-reply icon-fw"></i>Cancelar</button>
-					        <button class="btn btn-success btn-lg"><i class="ion-checkmark-round icon-fw"></i>Salvar</button>
+					        <button id="btnSave" class="btn btn-success btn-lg"><i class="ion-checkmark-round icon-fw"></i>Salvar</button>
 					    </div>
 					</div>
 				</div>

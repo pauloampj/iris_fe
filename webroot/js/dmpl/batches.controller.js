@@ -19,7 +19,7 @@ $(document).ready(function(){
 			dataType: 'json',
 			success: function(response){
 				if(response){
-					$table = dmpl.GUI.buildTable({fields: response.fields, items: response.items});
+					$table = dmpl.GUI.buildTable({fields: response.fields, keyColumn: response.keyColumn, items: response.items});
 					$('#itemsList').html($table);
 				}else{
 					dmpl.GUI.showMessage({text: 'Erro ao carregar cubo. Resposta do sistema: ' + (response.message || 'sem resposta'), type: dmpl.GUI.MESSAGE_TYPES.error});
@@ -28,6 +28,35 @@ $(document).ready(function(){
 		};
 		
 		dmpl.Network.ajax({ajax: ajaxParams, errorMessage: 'Ocorreu um erro ao conectar com o servidor!', loadMessage: 'Carregando cubo...'});
+	});
+	
+	$('#btnSave').click(function(){
+		var selecteds = $('#itemsList tbody [id^="form-checkbox-"]:checked').map(function(idx, elem) {
+		    return $(elem).val();
+		}).get();
+		
+		var data = dmpl.Util.serialize('[name^="data["]', $('#basicInfoContainer'));
+		data['items'] = selecteds;
+		data['keyColumn'] = $('#itemsList [id^="form-checkbox-all"]').data('key-column');
+		
+		ajaxParams = {
+			type: 'POST',
+			url: dmpl.apiUrl + '/batches/save',
+			data: data,
+			xhrFields: {
+			    withCredentials: true
+			},
+			dataType: 'json',
+			success: function(response){
+				if(response){
+					alert('salvo...');
+				}else{
+					dmpl.GUI.showMessage({text: 'Erro ao carregar cubo. Resposta do sistema: ' + (response.message || 'sem resposta'), type: dmpl.GUI.MESSAGE_TYPES.error});
+				}
+			}
+		};
+		
+		dmpl.Network.ajax({ajax: ajaxParams, errorMessage: 'Ocorreu um erro ao conectar com o servidor!', loadMessage: 'Salvando lote...'});
 	});
 	
 	$('#cubeSelect').change(function(){

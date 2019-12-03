@@ -792,7 +792,8 @@
 	function buildTable(opts){
 		
 		opts = opts || {};
-		opts.type = opts.items || [];
+		opts.items = opts.items || [];
+		opts.keyColumn = opts.keyColumn || 'ID';
 		
 		$container = $('<div class="table-responsive">');
 		$table = $('<table class="table table-striped">');
@@ -803,7 +804,7 @@
 		$thead_tr.append(
 				'<th>' +
 				'<div class="checkbox no-margin-vertical">' + 
-				'<input id="form-checkbox-all" class="magic-checkbox" type="checkbox">' +
+				'<input id="form-checkbox-all" data-key-column="' + opts.keyColumn + '" onChange="dmpl.GUI.tableSelectchange(this);" class="magic-checkbox" type="checkbox">' +
 				'<label for="form-checkbox-all"></label>' +
 				'</div>' +
 				'</th>');
@@ -818,7 +819,7 @@
 			tbody_tr +=	'<tr>' + 
 						'<td>' +
 							'<div class="checkbox no-margin-vertical">' +
-								'<input id="form-checkbox-' + opts.items[j].ID + '" class="magic-checkbox" type="checkbox">' +
+								'<input id="form-checkbox-' + opts.items[j].ID + '" value="' + opts.items[j].ID + '" class="magic-checkbox" type="checkbox">' +
 								'<label for="form-checkbox-' + opts.items[j].ID + '"></label>' +
 							'</div>' +
 						'</td>';
@@ -839,11 +840,16 @@
 		return $container;
 	}
 	
+	function tableSelectchange(el){
+		$(el).parents('table').find('tbody input[type=checkbox]').prop( "checked", el.checked );
+	}
+	
 	return {
 		attrsObjToAttrsDom		: attrsObjToAttrsDom,
 		showMessage				: showMessage,
 		hideAllMessages			: hideAllMessages,
 		buildTable				: buildTable,
+		tableSelectchange		: tableSelectchange,
 		MESSAGE_TYPES			: MESSAGE_TYPES
 	}
 
